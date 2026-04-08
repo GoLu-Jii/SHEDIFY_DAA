@@ -267,3 +267,58 @@ option {
 .manual-booking {
     border-left-color: #f59e0b !important;
 }
+
+/* Recommendation System Styles */
+#recommendations-container {
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--glass-border);
+}
+
+#recommendations-container h3 {
+    font-size: 1.2rem;
+    color: var(--accent);
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+#recommendations-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.recommendation-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.2s ease;
+}
+
+.recommendation-card:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateX(5px);
+    border-color: var(--primary);
+}
+
+.rec-info strong {
+    display: block;
+    font-size: 1.1rem;
+    color: var(--text);
+}
+
+.rec-info span {
+    font-size: 0.85rem;
+    color: #94a3b8;
+}
+
+.btn-small {
+    width: auto;
+    padding: 0.5rem 1.2rem;
+    margin-top: 0;
+    font-size: 0.9rem;
+}

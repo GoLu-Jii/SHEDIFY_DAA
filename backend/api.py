@@ -25,6 +25,13 @@ class BookingRequest(BaseModel):
     end_time: str
     expected_students: int
 
+class RecommendationRequest(BaseModel):
+    course_name: str
+    start_time: str
+    end_time: str
+    expected_students: int
+    room_type: str
+
 @app.get("/api/schedule")
 def get_schedule():
     classrooms = get_mock_classrooms()
@@ -66,6 +73,57 @@ def get_schedule():
 @app.get("/api/rooms")
 def get_rooms():
     return {"status": "success", "data": get_mock_classrooms()}
+
+@app.post("/api/recommend")
+def recommend_room(req: RecommendationRequest):
+    try:
+        t_start = datetime.strptime(req.start_time, "%H:%M").time()
+        t_end = datetime.strptime(req.end_time, "%H:%M").time()
+    except ValueError:
+        raise HTTPException(status_code=400, detail="Invalid time format. Use HH:MM")
+        
+    if t_start >= t_end:
+        raise HTTPException(status_code=400, detail="Start time must be before end time")
+
+    classrooms = get_mock_classrooms()
+    requests = get_mock_requests()
+    
+    # Filter by capacity
+    valid_rooms = [r for r in classrooms if r.capacity >= req.expected_students]
+    
+    # Filter by room type if not "any"
+    if req.room_type.lower() != "any":
+        valid_rooms = [r for r in valid_rooms if r.room_type.lower() == req.room_type.lower()]
+        
+    # Create a mock ClassRequest to check overlaps
+    new_req = ClassRequest(
+        id="TEMP_REC",
+        course_name=req.course_name,
+        start_time=t_start,
+        end_time=t_end,
+        class_type="manual",
+        requested_room_type=req.room_type,
+        expected_students=req.expected_students
+    )
+    
+    current_schedules = schedule_classes(requests, classrooms)
+    booked_room_ids = set()
+    
+    for sched in current_schedules:
+        existing_req = next((r for r in requests if r.id == sched.request_id), None)
+        if existing_req and is_overlapping(existing_req, new_req):
+            booked_room_ids.add(sched.classroom_id)
+            
+    # Filter out rooms that are booked at overlapping times
+    available_rooms = [r for r in valid_rooms if r.id not in booked_room_ids]
+    
+    # Sort by capacity ascending (Best-Fit)
+    available_rooms.sort(key=lambda r: r.capacity)
+    
+    # Return top 3
+    top_rooms = available_rooms[:3]
+    
+    return {"status": "success", "data": top_rooms}
 
 @app.post("/api/book")
 def book_room(booking: BookingRequest):

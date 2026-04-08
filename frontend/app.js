@@ -1,41 +1,82 @@
 document.addEventListener('DOMContentLoaded', () => {
-    fetchRooms();
     fetchSchedule();
-    
-    document.getElementById('booking-form').addEventListener('submit', handleBooking);
+    document.getElementById('recommendation-form').addEventListener('submit', handleRecommendations);
 });
 
-async function fetchRooms() {
-    try {
-        const res = await fetch('http://localhost:8000/api/rooms');
-        const result = await res.json();
-        if (result.status === 'success') {
-            const select = document.getElementById('room_id');
-            select.innerHTML = '<option value="">Select a room</option>';
-            result.data.forEach(r => {
-                select.innerHTML += `<option value="${r.id}">${r.id} (${r.room_type}, cap: ${r.capacity})</option>`;
-            });
-        }
-    } catch (e) {
-        console.error('Error fetching rooms', e);
-    }
-}
-
-async function handleBooking(e) {
+async function handleRecommendations(e) {
     e.preventDefault();
     const btn = e.target.querySelector('button');
     const msg = document.getElementById('booking-message');
+    const container = document.getElementById('recommendations-container');
+    const list = document.getElementById('recommendations-list');
     
-    btn.textContent = 'Booking...';
+    btn.textContent = 'Finding...';
     btn.disabled = true;
+    msg.className = 'message hidden';
+    container.classList.add('hidden');
+    list.innerHTML = '';
+    
+    // Save these for when a user actually clicks "Book"
+    window.currentBookingPayload = {
+        course_name: document.getElementById('course_name').value,
+        start_time: document.getElementById('start_time').value,
+        end_time: document.getElementById('end_time').value,
+        expected_students: parseInt(document.getElementById('expected_students').value),
+        room_type: document.getElementById('room_type').value
+    };
+    
+    try {
+        const res = await fetch('http://localhost:8000/api/recommend', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(window.currentBookingPayload)
+        });
+        const data = await res.json();
+        
+        if (res.ok && data.data && data.data.length > 0) {
+            renderRecommendations(data.data);
+            msg.classList.add('hidden'); // Hide any previous error messages
+        } else {
+            msg.textContent = data.detail || 'No available rooms found for these parameters.';
+            msg.className = 'message error';
+            msg.classList.remove('hidden');
+        }
+    } catch (err) {
+        msg.textContent = 'Network error while finding recommendations.';
+        msg.className = 'message error';
+        msg.classList.remove('hidden');
+    } finally {
+        btn.textContent = 'Find Recommendations';
+        btn.disabled = false;
+    }
+}
+
+function renderRecommendations(rooms) {
+    const container = document.getElementById('recommendations-container');
+    const list = document.getElementById('recommendations-list');
+    container.classList.remove('hidden');
+    
+    rooms.forEach(room => {
+        const card = document.createElement('div');
+        card.className = 'recommendation-card';
+        card.innerHTML = `
+            <div class="rec-info">
+                <strong>${room.id}</strong>
+                <span>${room.room_type} | ${room.capacity} cap</span>
+            </div>
+            <button type="button" class="btn btn-small" onclick="bookRoom('${room.id}')">Book</button>
+        `;
+        list.appendChild(card);
+    });
+}
+
+async function bookRoom(roomId) {
+    const msg = document.getElementById('booking-message');
     msg.className = 'message hidden';
     
     const payload = {
-        course_name: document.getElementById('course_name').value,
-        room_id: document.getElementById('room_id').value,
-        start_time: document.getElementById('start_time').value,
-        end_time: document.getElementById('end_time').value,
-        expected_students: parseInt(document.getElementById('expected_students').value)
+        ...window.currentBookingPayload,
+        room_id: roomId
     };
     
     try {
@@ -49,18 +90,17 @@ async function handleBooking(e) {
         if (res.ok) {
             msg.textContent = data.message;
             msg.className = 'message success';
-            e.target.reset(); // Clear the form
-            fetchSchedule();  // Refresh the grid
+            document.getElementById('recommendation-form').reset();
+            document.getElementById('recommendations-container').classList.add('hidden');
+            fetchSchedule();  // Refresh the schedule grid
         } else {
             msg.textContent = data.detail || 'Booking failed';
             msg.className = 'message error';
         }
+        msg.classList.remove('hidden');
     } catch (err) {
         msg.textContent = 'Network error while booking.';
         msg.className = 'message error';
-    } finally {
-        btn.textContent = 'Confirm Booking';
-        btn.disabled = false;
         msg.classList.remove('hidden');
     }
 }

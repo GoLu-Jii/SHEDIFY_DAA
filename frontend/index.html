@@ -16,16 +16,18 @@
         </header>
 
         <div class="booking-panel room-card">
-            <h2>Book a Room</h2>
-            <form id="booking-form">
+            <h2>Find Recommended Rooms</h2>
+            <form id="recommendation-form">
                 <div class="form-group">
                     <label>Course Name</label>
                     <input type="text" id="course_name" placeholder="e.g. DATA202" required>
                 </div>
                 <div class="form-group">
-                    <label>Room</label>
-                    <select id="room_id" required>
-                        <option value="">Loading rooms...</option>
+                    <label>Room Type Requirement</label>
+                    <select id="room_type" required>
+                        <option value="Any">Any Type</option>
+                        <option value="lecture">Lecture Hall</option>
+                        <option value="lab">Laboratory</option>
                     </select>
                 </div>
                 <div class="form-row">
@@ -42,9 +44,14 @@
                     <label>Expected Students</label>
                     <input type="number" id="expected_students" placeholder="e.g. 45" required>
                 </div>
-                <button type="submit" class="btn">Confirm Booking</button>
+                <button type="submit" class="btn" id="find-recommendations-btn">Find Recommendations</button>
             </form>
             <div id="booking-message" class="message hidden"></div>
+            
+            <div id="recommendations-container" class="hidden">
+                <h3>Top Recommendations</h3>
+                <div id="recommendations-list"></div>
+            </div>
         </div>
         
         <main>
