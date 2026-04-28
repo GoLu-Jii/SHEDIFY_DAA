@@ -1,64 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SHEDIFY - Automated Scheduler</title>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <div class="background-animation"></div>
-    <div class="container">
-        <header>
-            <h1>SHEDIFY</h1>
-            <p>Automatic Conflict-Free Class & Resource Scheduler</p>
-        </header>
+<nav>
+    <div style="font-weight:bold;">SHEDIFY</div>
+    <div style="color:var(--grey-text)">Dashboard</div>
+</nav>
 
-        <div class="booking-panel room-card">
-            <h2>Find Recommended Rooms</h2>
-            <form id="recommendation-form">
-                <div class="form-group">
-                    <label>Course Name</label>
-                    <input type="text" id="course_name" placeholder="e.g. DATA202" required>
-                </div>
-                <div class="form-group">
-                    <label>Room Type Requirement</label>
-                    <select id="room_type" required>
-                        <option value="Any">Any Type</option>
-                        <option value="lecture">Lecture Hall</option>
-                        <option value="lab">Laboratory</option>
-                    </select>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Start Time</label>
-                        <input type="time" id="start_time" required>
-                    </div>
-                    <div class="form-group">
-                        <label>End Time</label>
-                        <input type="time" id="end_time" required>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>Expected Students</label>
-                    <input type="number" id="expected_students" placeholder="e.g. 45" required>
-                </div>
-                <button type="submit" class="btn" id="find-recommendations-btn">Find Recommendations</button>
-            </form>
-            <div id="booking-message" class="message hidden"></div>
-            
-            <div id="recommendations-container" class="hidden">
-                <h3>Top Recommendations</h3>
-                <div id="recommendations-list"></div>
+<div class="frontfoot">
+    <h1>Room Allocation</h1>
+    <div class="card">
+        <form id="main-input-form">
+            <div class="time-row">
+                <input type="time" id="time-from">
+                <input type="time" id="time-to">
             </div>
-        </div>
-        
-        <main>
-            <div id="loader" class="loader">Generating optimal schedule...</div>
-            <div id="schedule-grid" class="schedule-grid hidden"></div>
-        </main>
+            <button class="button">Find Room</button>
+        </form>
+        <div id="room-suggestions"></div>
     </div>
-    <script src="app.js"></script>
-</body>
-</html>
+</div>
+
+<h2>Campus Status</h2>
+<div id="timetable-layout" class="grid">
+    </div>
