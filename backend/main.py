@@ -33,6 +33,13 @@ def get_classrooms():
     return get_mock_classrooms()
 
 
+@app.get("/schedules")
+def get_schedules():
+    return {
+        "schedules": list(ACTIVE_SCHEDULES.values())
+    }
+
+
 @app.post("/schedule")
 def generate_schedule(requests: List[ClassRequestSchema]):
     

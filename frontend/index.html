@@ -3,20 +3,32 @@
     <div style="color:var(--grey-text)">Dashboard</div>
 </nav>
 
+<link rel="stylesheet" href="style.css">
+
 <div class="frontfoot">
     <h1>Room Allocation</h1>
     <div class="card">
         <form id="main-input-form">
+            <input type="text" id="subject-name" placeholder="Course Name">
             <div class="time-row">
                 <input type="time" id="time-from">
                 <input type="time" id="time-to">
             </div>
+            <select id="room_type">
+                <option value="">Select Room Type</option>
+                <option value="lecture">Lecture Hall</option>
+                <option value="lab">Computer Lab</option>
+            </select>
+            <input type="number" id="headcount" placeholder="Expected Students">
             <button class="button">Find Room</button>
         </form>
         <div id="room-suggestions"></div>
     </div>
 </div>
 
-<h2>Campus Status</h2>
-<div id="timetable-layout" class="grid">
-    </div>
+<h2>Allocated Rooms</h2>
+<div id="allocated-rooms" class="grid">
+    <p style="color:var(--grey-text)">No rooms allocated yet.</p>
+</div>
+
+<script src="app.js"></script>
