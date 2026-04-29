@@ -37,7 +37,6 @@ def schedule_classes(requests, classrooms):
     
     schedules = []   # final list of scheduled classes
     allocation = {}  # keeps track of assigned requests
-    recommendations = {}
     
     # Group classrooms by type (lab or lecture)
     rooms_by_type = {}
@@ -77,16 +76,10 @@ def schedule_classes(requests, classrooms):
                     assigned_room = room
                 
 
-        top3 = available_rooms[:3]
-                
-
-        # store recommendations
-        recommendations[req.id] = [room.id for room in top3]
-
         if assigned_room:
             allocation[req.id] = assigned_room.id
             schedules.append(Schedule(request_id=req.id, classroom_id=assigned_room.id))
         else:
             print(f"Warning: Could not schedule Request {req.id} ({req.course_name}) - No available matching rooms.")
 
-    return schedules, recommendations
+    return schedules

@@ -58,17 +58,19 @@ CLASSROOMS = [
     Classroom(id="E_CS_LAB-03", capacity=50, room_type="lab"),
 ]
 
-REQUESTS = []
+REQUESTS = {}
+ACTIVE_SCHEDULES = {} 
 
 def get_mock_classrooms():
     return CLASSROOMS
 
 def get_mock_requests():
-    return REQUESTS
+    return list(REQUESTS.values())
 
 def add_request(req: ClassRequest):
-    REQUESTS.append(req)
+    REQUESTS[req.id] = req
     
 def delete_request(request_id: str):
-    global REQUESTS
-    REQUESTS = [r for r in REQUESTS if r.id != request_id]
+
+    REQUESTS.pop(request_id, None)
+    ACTIVE_SCHEDULES.pop(request_id, None)
