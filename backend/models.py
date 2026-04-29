@@ -13,7 +13,6 @@ class ClassRequest:
     course_name: str
     start_time: time
     end_time: time
-    class_type: str
     requested_room_type: str
     expected_students: int
 

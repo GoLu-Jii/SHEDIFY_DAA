@@ -24,7 +24,6 @@ class ClassRequestSchema(BaseModel):
     course_name: str
     start_time: str
     end_time: str
-    class_type: str = "lecture"
     requested_room_type: str
     expected_students: int
 
@@ -46,7 +45,6 @@ def generate_schedule(requests: List[ClassRequestSchema]):
             course_name=req.course_name,
             start_time=time.fromisoformat(req.start_time),
             end_time=time.fromisoformat(req.end_time),
-            class_type=req.class_type,
             requested_room_type=req.requested_room_type,
             expected_students=req.expected_students
         )
