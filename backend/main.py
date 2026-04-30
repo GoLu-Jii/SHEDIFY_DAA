@@ -87,3 +87,6 @@ def delete_class(request_id: str):
         "message": f"Request {request_id} deleted",
         "schedules": list(ACTIVE_SCHEDULES.values())
     }
+
+
+# welcome to shedify
