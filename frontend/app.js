@@ -19,7 +19,6 @@ async function loadAllocatedRooms() {
         const rooms = await roomsRes.json();
         const scheduleData = await scheduleRes.json();
         const schedules = scheduleData.schedules || [];
-        
         // Create room lookup
         const roomMap = {};
         rooms.forEach(r => roomMap[r.id] = r);

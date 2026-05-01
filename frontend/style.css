@@ -1,3 +1,4 @@
+/* hex codes ko variaable mai change karna*/
 :root {
     --white-page: #ffffff;
     --black-text: #171717;
@@ -7,7 +8,9 @@
     --section-grey: #fafafa;
     --curve: 4px;
 }
+/* change the default browser settings*/
 * { margin: 0; padding: 0; box-sizing: border-box; }
+/* basic setup for webpage*/
 body {
     background-color: var(--white-page);
     color: var(--black-text);
@@ -16,27 +19,31 @@ body {
     padding: 20px 5%; 
 }
 nav {
-    display: flex;
-    justify-content: space-between;
+    display: flex;  /* from vertical to horizontal*/
+    justify-content: space-between;/*layout theme left right*/
     padding-bottom: 20px;
-    border-bottom: 1px solid var(--outer-color);
-    margin-bottom: 40px;
+    border-bottom: 1px solid var(--outer-color);  /*bar ke niche line */
+    margin-bottom: 40px; /* navbar ke niche space */
 }
+/*for headings of specific sections */
 .frontfoot h1 { font-size: 40px; letter-spacing: -1px; }
+/* make it look like a box*/
 .card {
     background: var(--section-grey);
-    border: 1px solid var(--outer-color);
+    border: 1px solid var(--outer-color); /*thin line at outer area of box */
     padding: 25px;
     border-radius: var(--curve);
-    margin-bottom: 20px;
+    margin-bottom: 20px; /*space between 2 cards */
 }
+/*it adjust cards based on size*/
 .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* create multiple columns in one row with the given min width*/
     gap: 15px;
 }
+/* clicking button */
 .button {
-    display: inline-block;
+    display: inline-block; /*in same line with other blocks*/
     padding: 10px 20px;
     background: var(--black-text);
     color: white;
@@ -45,12 +52,15 @@ nav {
     cursor: pointer;
     border: none;
 }
+/* apply to both input and select elements*/
 input, select {
     width: 100%;
     padding: 10px;
-    margin: 8px 0 15px;
+    margin: 8px 0 15px; /*here 0 means that there willl be no margin  from left and right*/
     border: 1px solid var(--outer-color);
     border-radius: var(--curve);
 }
+/*highlights inputs when user click  on it like typing*/
 input:focus { outline: 2px solid var(--button-blue); }
+/* places items in row*/
 .time-row { display: flex; gap: 10px; }
