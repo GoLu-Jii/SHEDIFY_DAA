@@ -20,3 +20,6 @@ class ClassRequest:
 class Schedule:
     request_id: str
     classroom_id: str
+
+
+# welcome to shedify

@@ -64,3 +64,6 @@ input, select {
 input:focus { outline: 2px solid var(--button-blue); }
 /* places items in row*/
 .time-row { display: flex; gap: 10px; }
+
+
+/* welcome to shedify */

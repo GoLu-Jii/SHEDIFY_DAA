@@ -83,3 +83,5 @@ def schedule_classes(requests, classrooms):
             print(f"Warning: Could not schedule Request {req.id} ({req.course_name}) - No available matching rooms.")
 
     return schedules
+
+# welcome to shedify
